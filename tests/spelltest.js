@@ -23,8 +23,8 @@ var require;
 if (!require) require = {};
 
 var speller;
-if (!speller) speller = require('speller');
-
+if (!speller) speller = require('../lib/speller');
+var print = console.log;
 // A function that tests the speller against the supplied map of tests.
 exports.test = spelltest.test = function (tests, bias, verbose) {
     var n = 0;
@@ -250,3 +250,17 @@ exports.tests2 = spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deci
 'graphicaly', 'suited': 'suted', 'variable': 'varible vaiable', 'building':
 'biulding', 'required': 'reequired', 'necessitates': 'nessisitates',
 'together': 'togehter', 'profits': 'proffits'};
+
+exports.tests3 = spelltest.tests3 = 
+{
+'assessing': 'accesing', 
+'shshshsh' : 'sssshhhh',
+'ideally': 'idealy', 'scrutinized':
+'scrutiniesed', 'simular': 'similar', 'personnel': 'personel', 'whereas':
+'wheras', 'when': 'whn', 'geographically': 'goegraphicaly', 'gaining':
+'ganing', 'requested': 'rquested', 'separate': 'seporate', 'students':
+'studens', 'prepared': 'prepaired', 'generated': 'generataed', 'graphically':
+'graphicaly', 'suited': 'suted', 'variable': 'varible vaiable', 'building':
+'biulding', 'required': 'reequired', 'necessitates': 'nessisitates',
+'together': 'togehter', 'profits': 'proffits'
+};

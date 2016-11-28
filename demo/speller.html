@@ -1,153 +1,60 @@
 <html>
 <head>
-<title>Spellchecker</title>
+<title>Lyrics Validator</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link rel="stylesheet" type="text/css" media="all" href="content.css" />
+<link rel="stylesheet" type="text/css" media="all" href="css/content.css?v=3" />
+<link rel="stylesheet" href="css/diff.css?v=1"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="jquery.loading.min.js"></script>
-<script type="text/javascript" src="speller.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$("#correct").click(function(event) {
-		$.loading(true, { text: 'Working...', pulse: 'fade'});
-		var word = $('#word')[0].value;
-		setTimeout(function () {
-			print(speller.correct(word));
-			$.loading(false, { text: 'Working...', pulse: 'fade'});
-		}, 0);
-	});
-	$("#train").click(function(event) {
-		$.loading(true, { text: 'Working...', pulse: 'fade'});
-		var t0 = new Date();
-		$.get("big.txt", null, function (data, textStatus) {
-			var t1 = new Date();
-			print("Loaded file in " + (t1 - t0) + " msec");
-			var lines = data.split("\n");
-			var count = lines.length;
-			lines.forEach(function (line) {
-				setTimeout(function () {
-					speller.train(line);
-					count--;
-					if (count == 0) {
-						var t2 = new Date();
-						print("Trained in " + (t2 - t1) + " msec");
-						$.loading(false, { text: 'Working...', pulse: 'fade'});
-					}
-				}, 0);
-			});
-		}, "text");
-	});
-	var work = function(event) {
-		$.loading(true, { text: 'Working...', pulse: 'fade'});
-		var worker = new Worker("worker.js");
-		worker.onmessage = function (e) {
-			print(e.data);
-			$.loading(false, { text: 'Working...', pulse: 'fade'});
-		};
-		worker.postMessage(this.id + "@" + JSON.stringify(speller.nWords));
-	};
-	$("#tests1").click(work);
-	$("#tests2").click(work);
-});
-
-print = function(str) {
-	var old = $("#result > pre")[0].innerHTML;
-	$("#result > pre")[0].innerHTML = old + "<br>" + str;
-};
-</script>
-<style>
-.loading {
-    background: #FFC129;
-    color: black;
-    font-weight: bold;
-    padding: 3px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-}
-.loading-img, .loading-element {
-    background: transparent;
-    padding: 0px;
-}
-.loading.top {
-    -moz-border-radius-topleft: 0px;
-    -moz-border-radius-topright: 0px;
-    -webkit-border-top-left-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-}
-.loading.left {
-    -moz-border-radius-topleft: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-top-left-radius: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-}
-.loading.bottom {
-    -moz-border-radius-bottomleft: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-}
-.loading.right {
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -webkit-border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-}
-.loading-masked { overflow: hidden; }
-.loading-error {
-    color: #FFF;
-    background: red;
-}
-    </style>
-<!-- overflow:hidden in IE is currently breaking mask calcs :( -->
-<!--[if IE]>
-    <style type="text/css">
-.loading-masked { overflow: visible; }
-    </style>
-<![endif]-->
- 
 </head>
 <body>
-<div class="page">
-<div class="body">
-<div class="main">
-<h1>A JavaScript spell-checker</h1>
-<p>This page serves as a playground for the <a href='http://github.com/past/speller/tree/master'>
-JavaScript spell-checker implementation</a>.
-For details about the algorithm, read the <a href='http://norvig.com/spell-correct.html'>
-original article</a> by Peter Norvig. Using it is a two-step process: 1) train
-the algorithm, 2) request corrections.
-<p>Before using the spell-checker, the algorithm must be trained first. If you click
-on the 'correct' button before that, the algorithm will be unable to find the correct
-spelling in any word you try. Training involves loading a file with many words
-(about a million in this case) and building a language model. This file is the
-same one used by Norvig. You can click on the 'train' button to do it (note that
-your browser may become unresponsive for a few seconds):
-<button id="train">train</button>
-<p>With the spell-checking engine trained, we can now request corrections for any
-words we want. You can enter a misspelled word in the input box below and then click
-on the 'correct' button to correct it:<br>
-<input type="text" id="word" value="poteto">
-<button id="correct">correct</button>
-<br>
-<p>After playing a little with some words, you may want to run the tests in the
-<a href='http://norvig.com/spell-correct.html'>original article</a>.
-These tests apply the trained algorithm to a set of misspelled words and evaluate
-the performance of the implementation. The original results from Peter Norvig's
-Python implementation were:
-<p>Test 1: {'bad': 68, 'bias': None, 'unknown': 15, 'secs': 16, 'pct': 74, 'n': 270}
-<button id="tests1">Run test 1</button>
-<br>
-Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 400}
-<button id="tests2">Run test 2</button>
-<p>Note that due to the long duration of these tests, in order to avoid slow script
-warnings, the test implementation relies on <a href='http://www.whatwg.org/specs/web-workers/current-work/'>Web Workers</a>
-that are currently only supported in Firefox 3.5, Safari 4 and Chrome 3.<br>
-</div>
-<hr/>
-<div id="result">
-<h3>Console:</h3>
-<pre></pre>
-</div>
+	<div class="page">
+	<div class="body">
+	<div class="main">
+
+	<h3>Traininig set</h3>
+	To train the spell checker
+	<button id="train">train</button>
+
+	<h3>Correct</h3>
+	<p>Single term</p><input type="text" id="word" value="poteto">
+	<button id="correct_word">correct</button>
+	<br/>
+	<p>Full text
+	<button id="correct_text">correct</button>
+	<br/>
+	<h3>Test set</h3>
+	<br>Trained tests default evaluation
+	<p>Test 1: {'bad': 68, 'bias': None, 'unknown': 15, 'secs': 16, 'pct': 74, 'n': 270}
+	<button id="tests1">Run test 1</button>
+	<br>
+	Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 400}
+	<button id="tests2">Run test 2</button>
+	</div>
+
+	<div id="result">
+	<h3>Console</h3><button id="clean">Clean</button>
+	<pre></pre>
+	</div>
+
+	<div id="diff_box">
+		<h3>Diff</h3>
+		<label><input type="radio" name="diff_type" value="diffChars" checked> Chars</label>
+		<label><input type="radio" name="diff_type" value="diffWords"> Words</label>
+		<label><input type="radio" name="diff_type" value="diffLines"> Lines</label>
+	</div>
+	<table>
+		<tr>
+			<td contenteditable="true" id="a"></td>
+			<td contenteditable="true" id="b"></td>
+			<td><pre id="diffresult"></pre></td>
+		</tr>
+	</table>
+	
+	<script type="text/javascript" src="js/jquery.loading.min.js"></script>
+	<script type="text/javascript" src="js/diff.js?v=4"></script> 
+	<script type="text/javascript" src="js/speller.js?v=1"></script>
+	<script type="text/javascript" src="js/app.js?v=4"></script> 
+
 </body>
 </html>
 

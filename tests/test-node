@@ -18,13 +18,13 @@
 if (process.argv.length != 3) {
 	console.log('Usage: ' + require('path').basename(process.argv[1]) + ' [tests1|tests2]');
 } else {
-    var speller = require('speller');
+    var speller = require('../lib/speller');
     var spelltest = require('./spelltest');
 	var fs = require('fs');
 	// Train the language model first.
     fs.readFile(__dirname + '/../bin/big.txt', 'ascii', function (err, data) {
         if (err) throw err;
         speller.train(data);
-        console.log(JSON.stringify(spelltest.test(spelltest[process.argv[2]])));
+        console.log(JSON.stringify(spelltest.test(spelltest[process.argv[2]],undefined,true)));
     });
 }
