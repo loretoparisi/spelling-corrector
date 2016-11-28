@@ -15,9 +15,9 @@ function diffEditor() {
 
     var result = document.getElementById('diffresult');
     var self=this;
-
+    this.diffType='diffChars';
     this.changed = function() {
-        var diff = JsDiff[window.diffType](a.textContent, b.textContent);
+        var diff = JsDiff[self.diffType](a.textContent, b.textContent);
         var fragment = document.createDocumentFragment();
         for (var i=0; i < diff.length; i++) {
 
@@ -44,13 +44,31 @@ function diffEditor() {
         result.appendChild(fragment);
     }//changed
 
+    $("#clean_diff").click(function(event) {
+        $('#a').text("");
+        $('#b').text("");
+        $('#diffresult').text("");
+    });
+
     window.onload = function() {
         onDiffTypeChange(document.querySelector('#diff_box [name="diff_type"]:checked'));
         self.changed();
     };
 
-    a.onpaste = a.onchange =
-    b.onpaste = b.onchange = self.changed;
+    function cleanContents() {
+        $('#a').text("");
+        $('#b').text("");
+        $('#diffresult').text("");
+        self.changed();    
+    }
+
+    function cleanContentsAndReload() {
+        cleanContents();
+        self.changed();    
+    }
+
+    a.onpaste = b.onpaste = cleanContents;
+    a.onchange = b.onchange = cleanContentsAndReload;
 
     if ('oninput' in a) {
         a.oninput = b.oninput = self.changed;
@@ -59,8 +77,7 @@ function diffEditor() {
     }
 
     function onDiffTypeChange(radio) {
-        window.diffType = radio.value;
-        document.title = "Diff " + radio.value.slice(4);
+        self.diffType = radio.value;
     }
 
     var radio = document.getElementsByName('diff_type');
@@ -156,7 +173,7 @@ function spellChecker(diffEditor) {
 	$("#train").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var t0 = new Date();
-		$.get("big.txt", null, function (data, textStatus) {
+		$.get("data/big.txt", null, function (data, textStatus) {
 			var t1 = new Date();
 			print("Loaded file in " + (t1 - t0) + " msec");
 			var lines = data.split("\n");
@@ -186,6 +203,7 @@ function spellChecker(diffEditor) {
 	};
 	$("#tests1").click(work);
 	$("#tests2").click(work);
+
 }//spellChecker
 
 $(document).ready(function(){
