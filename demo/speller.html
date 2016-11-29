@@ -1,45 +1,49 @@
 <html>
 <head>
-<title>PGrammarChecker</title>
+<title>Spelling Corrector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Loreto Parisi | Panagiotis Astithas">
+<meta name="description" content="Spelling Corrector based on Peter Norving spell-check">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <link rel="stylesheet" type="text/css" media="all" href="css/content.css?v=3" />
 <link rel="stylesheet" href="css/diff.css?v=1"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 </head>
-<body>
-	<div class="page">
-	<div class="body">
-	<div class="main">
+<body class="body">
+	<div class="head">
+	 	<a href="https://twitter.com/loretoparisi" class="twitter-follow-button" data-size="small" data-show-count="false" data-lang="en">Follow @loretoparisi</a>
+	 	<a href="https://twitter.com/share" class="twitter-share-button" data-size="small" data-text="#spelling corrector #machinelearning" data-lang="en" data-via="loretoparisi">Tweet</a>
+ 	</div>
+	<div class="container main">
+		<h3>Spell Checker</h3>
+		<h3>Traininig set</h3>
+		To train the spell checker
+		<button id="train">train</button>
 
-	<h3>Traininig set</h3>
-	To train the spell checker
-	<button id="train">train</button>
-
-	<h3>Correct</h3>
-	<p>Single term</p><input type="text" id="word" value="poteto">
-	<button id="correct_word">correct</button>
-	<br/>
-	<p>Full text
-	<button id="correct_text">correct</button>
-	<br/>
-	<h3>Test set</h3>
-	<br>Trained tests default evaluation
-	<p>Test 1: {'bad': 68, 'bias': None, 'unknown': 15, 'secs': 16, 'pct': 74, 'n': 270}
-	<button id="tests1">Run test 1</button>
-	<br>
-	Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 400}
-	<button id="tests2">Run test 2</button>
+		<h3>Correct</h3>
+		<p>Single term</p><input type="text" id="word" value="poteto">
+		<button id="correct_word">correct</button>
+		<br/>
+		<p>Full text
+		<button id="correct_text">correct</button>
+		<br/>
+		<h3>Test set</h3>
+		<br>Trained tests default evaluation
+		<p>Test 1: {'bad': 68, 'bias': None, 'unknown': 15, 'secs': 16, 'pct': 74, 'n': 270}
+		<button id="tests1">Run test 1</button>
+		<br>
+		Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 400}
+		<button id="tests2">Run test 2</button>
 	</div>
-
 	<div id="result">
-	<h3>Console</h3>
-	<button id="clean">Clean</button>
-	<pre></pre>
+		<h3>Console</h3>
+		<button id="clean">Clean</button>
+		<pre></pre>
 	</div>
-
 	<div id="diff_box">
 		<h3>Diff</h3>
 		<button id="clean_diff">Clean</button>
+		<button id="format_text">Format</button>
 		<label><input type="radio" name="diff_type" value="diffChars" checked> Chars</label>
 		<label><input type="radio" name="diff_type" value="diffWords"> Words</label>
 		<label><input type="radio" name="diff_type" value="diffLines"> Lines</label>
@@ -51,12 +55,12 @@
 			<td><pre id="diffresult"></pre></td>
 		</tr>
 	</table>
-	
-	<script type="text/javascript" src="js/jquery.loading.min.js"></script>
-	<script type="text/javascript" src="js/diff.js?v=4"></script> 
-	<script type="text/javascript" src="js/speller.js?v=1"></script>
-	<script type="text/javascript" src="js/app.js?v=4"></script> 
 
+	<script type="text/javascript" src="js/jquery.loading.min.js"></script>
+	<script type="text/javascript" src="js/diff.js?v=6"></script> 
+	<script type="text/javascript" src="js/speller.js?v=1"></script>
+	<script type="text/javascript" src="js/app.js?v=5"></script>
+	<script async>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>
 

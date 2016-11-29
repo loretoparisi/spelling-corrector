@@ -11,6 +11,11 @@ body {
 	background-color: white;
 }
 
+.head {
+	float: right;
+    margin-right: 10;		
+}
+
 /* **************** CONTENT OBJECTS ***************** */
 
 /* ====== Default spacing ====== */
