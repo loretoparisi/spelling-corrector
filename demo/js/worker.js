@@ -17,7 +17,7 @@
 /*
  * inspired by http://blog.astithas.com/2009/08/spell-checking-in-javascript.html
  * Improved and Modified by
- * @author Loreto Parisi (loreto at gmail com)
+ * @author Loreto Parisi (loretoparisi at gmail com)
 */ 
 
 // The worker control function.
