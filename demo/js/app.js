@@ -15,6 +15,9 @@
  */
 
 var Settings = {
+    TRAINING_SET: "data/big.txt", //"data/big.txt"
+    STOPWORDS: "data/stopwords.txt",
+    SAMPLE_TEXT: 'data/sample.txt',
     WRAP_CHARS : 50
 }
 
@@ -215,11 +218,11 @@ function SpellChecker(diffEditor,wordWrapEditor) {
     var self=this;
 
     $.loading(true, { text: 'Loading...', pulse: 'fade'});
-    $.get( "data/stopwords.txt", function( data ) {
+    $.get( Settings.STOPWORDS, function( data ) {
         self.stopWords = data.split(',');
         print(self.stopWords.length + " stopwords loaded.");
     });
-    $.get( "data/sample.txt", function( data ) {
+    $.get( Settings.SAMPLE_TEXT, function( data ) {
         $('#a').text(data);
         print("sample text loaded.");
         $.loading(false);
@@ -307,7 +310,7 @@ function SpellChecker(diffEditor,wordWrapEditor) {
 	$("#train").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var t0 = new Date();
-		$.get("data/big.txt", null, function (data, textStatus) {
+		$.get(Settings.TRAINING_SET, null, function (data, textStatus) {
 			var t1 = new Date();
 			print("Loaded file in " + (t1 - t0) + " msec");
 			var lines = data.split("\n");
